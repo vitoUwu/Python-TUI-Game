@@ -14,4 +14,4 @@ class Coin(Map_Object):
     if player.coins > player.high_score:
       player.high_score = player.coins
       open('high_score.txt', 'w').write(str(player.coins))
-    self.map.destroy(self)
+    self.map.destroy(self, True)

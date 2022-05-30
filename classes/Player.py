@@ -1,7 +1,10 @@
-from random import choice
+from random import choice, randint
 from classes.Map import Map
 from classes.Event import event
 from sprites import *
+
+def rand_coord(map: Map) -> tuple:
+  return (randint(0, map.cols - 1), randint(0, map.rows - 1))
 
 class Player():
   def __init__(self, map: Map) -> None:
@@ -13,13 +16,17 @@ class Player():
     self.high_score = int(open('high_score.txt', 'r').read())
 
   def spawn(self) -> None:
-    self.x, self.y = choice(self.map.get_empty_coords())
+    self.x, self.y = rand_coord(self.map)
+    if self.map.get_cell(self.x, self.y) != empty_cell:
+      return self.spawn()
     self.map.spawn(self)
 
   def coords(self) -> tuple:
     return self.y, self.x
 
   def move(self, x: int, y: int) -> None:
+    if self.map.get_cell(self.x + x, self.y + y) == wall_cell:
+      return
     self.colide(self.map.entity_at(self.x + x, self.y + y))
     self.x += x
     self.y += y

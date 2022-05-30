@@ -8,5 +8,5 @@ class Door(Map_Object):
     super().__init__('new_map_door', door_cell, 'door', map, False)
 
   def open(self) -> None:
-    self.map.destroy(self)
+    self.map.destroy(self, True)
     event.trigger('new_map_door_open')
